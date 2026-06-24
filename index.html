@@ -1,0 +1,1064 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>纖維化×抗癌生態系導航OS｜顏博士活力診所衛教系統</title>
+<style>
+:root {
+  --navy: #0F2A3D;
+  --navy-deep: #081A28;
+  --gold: #C9962F;
+  --gold-light: #E0B860;
+  --teal: #2E7D5B;
+  --cream: #FAF7F0;
+  --white: #FFFFFF;
+  --ink: #1A2733;
+  --ink-soft: #4A5A68;
+  --border: #E3DFD3;
+  --cancer-accent: #8C2F2F;
+  --healthy-accent: #2E7D5B;
+  --radius: 14px;
+  --shadow: 0 4px 20px rgba(15,42,61,0.08);
+  --shadow-lg: 0 10px 40px rgba(15,42,61,0.14);
+}
+* { box-sizing: border-box; }
+html, body {
+  margin: 0; padding: 0;
+  background: var(--white);
+  color: var(--ink);
+  font-family: "Microsoft JhengHei", "PingFang TC", "Noto Sans TC", -apple-system, sans-serif;
+  font-size: 18px;
+  line-height: 1.75;
+  -webkit-font-smoothing: antialiased;
+}
+h1, h2, h3, h4 { font-family: "Microsoft JhengHei", "Noto Sans TC", sans-serif; color: var(--navy); margin: 0; }
+a { color: var(--teal); text-decoration: none; }
+button { font-family: inherit; cursor: pointer; }
+
+/* ===== Top Nav ===== */
+.topnav {
+  position: sticky; top: 0; z-index: 200;
+  background: linear-gradient(135deg, var(--navy-deep), var(--navy));
+  color: var(--white);
+  box-shadow: var(--shadow);
+}
+.topnav-inner {
+  max-width: 1200px; margin: 0 auto;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 14px 20px;
+}
+.brand { display: flex; align-items: center; gap: 10px; font-size: 19px; font-weight: 700; color: var(--gold-light); }
+.brand-sub { font-size: 13px; color: #C9D6DE; font-weight: 400; margin-left: 8px; }
+.navlinks { display: flex; gap: 4px; flex-wrap: wrap; }
+.navlinks button {
+  background: transparent; border: none; color: #DCE6EC;
+  padding: 8px 12px; border-radius: 8px; font-size: 14px; font-weight: 600;
+  transition: background .2s, color .2s;
+  white-space: nowrap;
+}
+.navlinks button:hover, .navlinks button.active { background: rgba(201,150,47,0.22); color: var(--gold-light); }
+.audience-badge {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: 12px; padding: 4px 10px; border-radius: 20px;
+  background: rgba(255,255,255,0.12); color: #fff; font-weight: 600;
+}
+.audience-badge.cancer { background: rgba(140,47,47,0.35); }
+.audience-badge.healthy { background: rgba(46,125,91,0.35); }
+
+@media (max-width: 860px) {
+  .navlinks { display: none; }
+  .topnav-inner { padding: 12px 16px; }
+}
+
+/* ===== Mobile drawer ===== */
+.menu-toggle { display: none; background: rgba(255,255,255,0.12); border: none; color: #fff; padding: 8px 12px; border-radius: 8px; font-size: 20px; }
+@media (max-width: 860px) { .menu-toggle { display: inline-flex; } }
+.drawer {
+  position: fixed; top: 0; right: -320px; width: 300px; height: 100vh; z-index: 300;
+  background: var(--navy-deep); padding: 20px; transition: right .3s ease;
+  overflow-y: auto; box-shadow: -10px 0 30px rgba(0,0,0,0.3);
+}
+.drawer.open { right: 0; }
+.drawer button { display: block; width: 100%; text-align: left; background: transparent; border: none; color: #DCE6EC; padding: 12px 10px; font-size: 15px; font-weight: 600; border-radius: 8px; margin-bottom: 4px; }
+.drawer button:hover, .drawer button.active { background: rgba(201,150,47,0.2); color: var(--gold-light); }
+.drawer-close { text-align: right; color: #fff; font-size: 24px; margin-bottom: 10px; background: none; border: none; }
+.drawer-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 290; display: none; }
+.drawer-overlay.open { display: block; }
+
+/* ===== Layout ===== */
+.page { max-width: 1100px; margin: 0 auto; padding: 32px 20px 80px; }
+.module-section { display: none; }
+.module-section.active { display: block; animation: fadeIn .35s ease; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+.section-head { text-align: center; margin-bottom: 36px; }
+.section-eyebrow { color: var(--gold); font-weight: 700; font-size: 14px; letter-spacing: 2px; text-transform: uppercase; }
+.section-title { font-size: 32px; margin: 10px 0; font-weight: 800; }
+.section-sub { color: var(--ink-soft); font-size: 17px; max-width: 680px; margin: 0 auto; }
+
+/* ===== Hero / Landing ===== */
+.hero {
+  background: linear-gradient(160deg, var(--navy-deep) 0%, var(--navy) 55%, #143548 100%);
+  color: #fff; padding: 64px 24px 56px; text-align: center;
+  position: relative; overflow: hidden;
+}
+.hero::before {
+  content: ""; position: absolute; inset: 0;
+  background: radial-gradient(circle at 80% 20%, rgba(201,150,47,0.18), transparent 50%),
+              radial-gradient(circle at 15% 80%, rgba(46,125,91,0.18), transparent 50%);
+}
+.hero-content { position: relative; z-index: 2; max-width: 760px; margin: 0 auto; }
+.hero-kicker { color: var(--gold-light); font-weight: 700; letter-spacing: 3px; font-size: 13px; text-transform: uppercase; margin-bottom: 18px; }
+.hero h1 { color: #fff; font-size: 38px; font-weight: 800; line-height: 1.4; margin-bottom: 18px; }
+.hero h1 .accent { color: var(--gold-light); }
+.hero p { color: #C9D6DE; font-size: 18px; max-width: 600px; margin: 0 auto 30px; }
+
+.chain-display {
+  display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 8px;
+  margin: 28px 0; font-size: 15px; font-weight: 700;
+}
+.chain-pill { background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.2); padding: 8px 14px; border-radius: 20px; color: #fff; }
+.chain-arrow { color: var(--gold-light); font-size: 18px; }
+.chain-result { background: var(--cancer-accent); padding: 8px 16px; border-radius: 20px; color: #fff; }
+
+/* ===== Audience picker ===== */
+.audience-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; margin-top: 36px; }
+@media (max-width: 720px) { .audience-grid { grid-template-columns: 1fr; } }
+.audience-card {
+  background: var(--white); border: 2px solid var(--border); border-radius: var(--radius);
+  padding: 28px 24px; text-align: left; cursor: pointer; transition: all .25s;
+  box-shadow: var(--shadow);
+}
+.audience-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
+.audience-card.cancer { border-top: 5px solid var(--cancer-accent); }
+.audience-card.healthy { border-top: 5px solid var(--healthy-accent); }
+.audience-card .ac-icon { font-size: 34px; margin-bottom: 10px; }
+.audience-card h3 { font-size: 21px; margin-bottom: 8px; }
+.audience-card p { color: var(--ink-soft); font-size: 15px; margin: 0; }
+.audience-card .ac-cta { margin-top: 16px; font-weight: 700; color: var(--gold); font-size: 14px; }
+
+/* ===== Cards / Collapsibles ===== */
+.card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px,1fr)); gap: 18px; }
+.click-card {
+  background: var(--white); border: 1px solid var(--border); border-radius: var(--radius);
+  box-shadow: var(--shadow); overflow: hidden; transition: box-shadow .2s;
+}
+.click-card:hover { box-shadow: var(--shadow-lg); }
+.click-card summary {
+  list-style: none; cursor: pointer; padding: 20px 22px;
+  display: flex; align-items: center; gap: 14px; font-weight: 700; font-size: 17px;
+  color: var(--navy);
+}
+.click-card summary::-webkit-details-marker { display: none; }
+.click-card summary .ci-icon { font-size: 26px; flex-shrink: 0; }
+.click-card summary .ci-chevron { margin-left: auto; color: var(--gold); transition: transform .25s; font-size: 14px; }
+.click-card[open] summary .ci-chevron { transform: rotate(180deg); }
+.click-card .ci-body { padding: 0 22px 22px; color: var(--ink-soft); font-size: 16px; }
+.click-card .ci-body p { margin: 0 0 12px; }
+.click-card .ci-tag { display: inline-block; background: var(--cream); border: 1px solid var(--border); color: var(--navy); font-size: 13px; font-weight: 700; padding: 4px 10px; border-radius: 8px; margin-bottom: 10px; }
+
+.formula-box {
+  background: var(--navy-deep); color: #fff; border-radius: var(--radius);
+  padding: 18px 22px; font-weight: 700; font-size: 16px; text-align: center;
+  margin: 14px 0; border-left: 5px solid var(--gold);
+}
+.quote-box {
+  border-left: 4px solid var(--teal); background: var(--cream); padding: 16px 20px;
+  border-radius: 8px; font-style: italic; color: var(--navy); margin: 14px 0; font-size: 16px;
+}
+
+/* ===== Quiz ===== */
+.quiz-progress { height: 8px; background: var(--border); border-radius: 6px; overflow: hidden; margin-bottom: 24px; }
+.quiz-progress-bar { height: 100%; background: linear-gradient(90deg, var(--gold), var(--gold-light)); transition: width .3s; }
+.quiz-item {
+  display: flex; align-items: flex-start; gap: 14px; padding: 18px 20px;
+  border: 2px solid var(--border); border-radius: 12px; margin-bottom: 12px; cursor: pointer;
+  transition: all .2s; background: var(--white);
+}
+.quiz-item:hover { border-color: var(--gold); background: #FFFBF2; }
+.quiz-item.checked { border-color: var(--teal); background: #F0F8F4; }
+.quiz-item input { width: 22px; height: 22px; accent-color: var(--teal); flex-shrink: 0; margin-top: 2px; }
+.quiz-actions { display: flex; justify-content: space-between; margin-top: 24px; gap: 12px; flex-wrap: wrap; }
+.btn {
+  background: var(--navy); color: #fff; border: none; padding: 13px 26px;
+  border-radius: 10px; font-weight: 700; font-size: 16px; transition: background .2s, transform .15s;
+}
+.btn:hover { background: var(--navy-deep); transform: translateY(-1px); }
+.btn.gold { background: linear-gradient(135deg, var(--gold), var(--gold-light)); color: var(--navy-deep); }
+.btn.outline { background: transparent; color: var(--navy); border: 2px solid var(--navy); }
+.btn.cancer { background: var(--cancer-accent); }
+.btn:disabled { opacity: .4; cursor: not-allowed; }
+
+.result-banner {
+  border-radius: var(--radius); padding: 30px; color: #fff; text-align: center; margin-bottom: 24px;
+}
+.result-banner .rb-level { font-size: 26px; font-weight: 800; margin-bottom: 8px; }
+.result-banner .rb-score { font-size: 15px; opacity: .9; }
+.result-tabs { display: flex; gap: 8px; margin-bottom: 18px; flex-wrap: wrap; }
+.result-tab { padding: 10px 18px; border-radius: 10px; border: 2px solid var(--border); background: var(--white); font-weight: 700; color: var(--ink-soft); }
+.result-tab.active { border-color: var(--navy); color: var(--navy); background: var(--cream); }
+
+/* ===== Map ===== */
+.map-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px,1fr)); gap: 16px; }
+.map-node {
+  background: var(--white); border: 1px solid var(--border); border-radius: var(--radius);
+  padding: 18px; box-shadow: var(--shadow); cursor: pointer; transition: all .2s;
+}
+.map-node:hover { transform: translateY(-3px); box-shadow: var(--shadow-lg); }
+.map-node .mn-icon { font-size: 30px; }
+.map-node .mn-organ { font-weight: 800; font-size: 18px; color: var(--navy); margin: 6px 0; }
+.map-node .mn-pathway { font-size: 13px; color: var(--ink-soft); }
+.pathway-flow { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; margin: 12px 0; font-size: 14px; }
+.pathway-step { background: var(--cream); border: 1px solid var(--border); padding: 5px 10px; border-radius: 14px; }
+.pathway-arrow { color: var(--gold); }
+.outcome-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+.outcome-tag { background: #FDEDED; color: var(--cancer-accent); font-size: 12px; font-weight: 700; padding: 4px 9px; border-radius: 10px; }
+.yen-link-box { background: #FFF8E8; border: 1px dashed var(--gold); border-radius: 10px; padding: 12px 14px; margin-top: 12px; font-size: 14px; color: var(--navy); }
+
+/* ===== Symptom Navigator ===== */
+.symptom-pills { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-bottom: 28px; }
+.symptom-pill {
+  background: var(--white); border: 2px solid var(--border); padding: 12px 20px; border-radius: 24px;
+  font-weight: 700; font-size: 16px; transition: all .2s; color: var(--navy);
+}
+.symptom-pill:hover, .symptom-pill.active { border-color: var(--teal); background: var(--teal); color: #fff; }
+
+/* ===== Animation modules ===== */
+.anim-card { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px; box-shadow: var(--shadow); margin-bottom: 20px; }
+.anim-steps { display: flex; flex-wrap: wrap; gap: 0; align-items: center; margin: 20px 0; }
+.anim-step {
+  background: var(--cream); border: 2px solid var(--border); border-radius: 10px; padding: 12px 16px;
+  font-size: 14px; font-weight: 700; text-align: center; min-width: 110px;
+  opacity: 0.3; transition: opacity .4s, transform .4s, border-color .4s;
+}
+.anim-step.lit { opacity: 1; border-color: var(--teal); transform: scale(1.05); background: #F0F8F4; }
+.anim-step.danger.lit { border-color: var(--cancer-accent); background: #FDEDED; }
+.anim-arrow-sep { color: var(--gold); font-size: 18px; padding: 0 8px; }
+.anim-narration { color: var(--ink-soft); font-style: italic; text-align: center; margin-top: 14px; }
+
+/* ===== AI module ===== */
+.ai-chat-box { background: var(--cream); border-radius: var(--radius); padding: 22px; min-height: 120px; margin-top: 18px; }
+.ai-msg { background: var(--white); border-radius: 12px; padding: 16px 18px; box-shadow: var(--shadow); line-height: 1.8; }
+.ai-msg .ai-tag { font-weight: 800; color: var(--gold); font-size: 13px; margin-bottom: 8px; display: block; }
+
+/* ===== Clinic / Profile ===== */
+.clinic-card {
+  background: linear-gradient(160deg, var(--navy-deep), var(--navy));
+  color: #fff; border-radius: 20px; padding: 40px 32px; margin-bottom: 28px;
+  box-shadow: var(--shadow-lg);
+}
+.clinic-card h2 { color: #fff; }
+.clinic-header { display: flex; align-items: center; gap: 18px; margin-bottom: 20px; flex-wrap: wrap; }
+.clinic-name { font-size: 28px; font-weight: 800; color: var(--gold-light); }
+.clinic-title { color: #C9D6DE; font-size: 15px; }
+.cred-list { list-style: none; padding: 0; margin: 16px 0; }
+.cred-list li { padding: 8px 0 8px 28px; position: relative; color: #DCE6EC; font-size: 15px; }
+.cred-list li::before { content: "✓"; position: absolute; left: 0; color: var(--gold-light); font-weight: 800; }
+.contact-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px,1fr)); gap: 14px; margin-top: 22px; }
+.contact-item { background: rgba(255,255,255,0.08); border-radius: 12px; padding: 16px; }
+.contact-item .ci-label { font-size: 12px; color: var(--gold-light); font-weight: 700; text-transform: uppercase; letter-spacing: 1px; }
+.contact-item .ci-value { font-size: 16px; font-weight: 700; margin-top: 4px; color: #fff; }
+.contact-item a { color: #fff; }
+
+.book-strip { background: var(--cream); border-radius: var(--radius); padding: 24px; display: flex; gap: 20px; align-items: flex-start; flex-wrap: wrap; border: 1px solid var(--border); }
+.book-strip .bs-icon { font-size: 40px; }
+.book-strip h4 { margin-bottom: 6px; }
+.book-strip p { color: var(--ink-soft); margin: 0; font-size: 15px; }
+
+.cta-banner {
+  background: linear-gradient(135deg, var(--gold), var(--gold-light));
+  border-radius: var(--radius); padding: 28px; text-align: center; margin-top: 24px;
+}
+.cta-banner h3 { font-size: 22px; color: var(--navy-deep); margin-bottom: 10px; }
+.cta-banner p { color: var(--navy); margin-bottom: 18px; }
+
+/* ===== Footer ===== */
+.site-footer { background: var(--navy-deep); color: #9DB0BC; text-align: center; padding: 28px 20px; font-size: 14px; }
+.site-footer strong { color: var(--gold-light); }
+
+/* ===== Disclaimer ===== */
+.disclaimer { background: #FFF8E8; border: 1px solid var(--gold); border-radius: 10px; padding: 14px 18px; font-size: 13px; color: var(--ink-soft); margin: 20px 0; }
+
+/* ===== Scrollbar minor ===== */
+::-webkit-scrollbar { width: 10px; }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 10px; }
+
+.score-table { width: 100%; border-collapse: collapse; margin: 16px 0; }
+.score-table th, .score-table td { border: 1px solid var(--border); padding: 10px 12px; text-align: left; font-size: 15px; }
+.score-table th { background: var(--cream); color: var(--navy); }
+
+.efficacy-bar { font-size: 14px; color: var(--ink-soft); margin: 6px 0; }
+</style>
+</head>
+<body>
+
+<div class="topnav">
+  <div class="topnav-inner">
+    <div class="brand">🌿 纖維化×抗癌生態系導航OS<span class="brand-sub">顏博士活力診所 衛教系統</span></div>
+    <div class="navlinks"><button data-nav="home" onclick="goToModule('home')">首頁</button><button data-nav="theory" onclick="goToModule('theory')">理論館</button><button data-nav="risk" onclick="goToModule('risk')">風險檢測</button><button data-nav="map" onclick="goToModule('map')">生態系地圖</button><button data-nav="symptom" onclick="goToModule('symptom')">症狀導航</button><button data-nav="animation" onclick="goToModule('animation')">機制動畫</button><button data-nav="improve" onclick="goToModule('improve')">改善導航</button><button data-nav="tech" onclick="goToModule('tech')">抗癌策略</button><button data-nav="ai" onclick="goToModule('ai')">AI問診</button><button data-nav="clinic" onclick="goToModule('clinic')">預約評估</button></div>
+    <button class="menu-toggle" onclick="toggleDrawer()">☰</button>
+  </div>
+</div>
+<div class="drawer-overlay" id="drawer-overlay" onclick="toggleDrawer()"></div>
+<div class="drawer" id="drawer">
+  <button class="drawer-close" onclick="toggleDrawer()">✕</button>
+  <button data-nav-drawer="home" onclick="goToModule('home');toggleDrawer();">首頁</button><button data-nav-drawer="theory" onclick="goToModule('theory');toggleDrawer();">理論館</button><button data-nav-drawer="risk" onclick="goToModule('risk');toggleDrawer();">風險檢測</button><button data-nav-drawer="map" onclick="goToModule('map');toggleDrawer();">生態系地圖</button><button data-nav-drawer="symptom" onclick="goToModule('symptom');toggleDrawer();">症狀導航</button><button data-nav-drawer="animation" onclick="goToModule('animation');toggleDrawer();">機制動畫</button><button data-nav-drawer="improve" onclick="goToModule('improve');toggleDrawer();">改善導航</button><button data-nav-drawer="tech" onclick="goToModule('tech');toggleDrawer();">抗癌策略</button><button data-nav-drawer="ai" onclick="goToModule('ai');toggleDrawer();">AI問診</button><button data-nav-drawer="clinic" onclick="goToModule('clinic');toggleDrawer();">預約評估</button>
+</div>
+
+<section class="module-section active" id="mod-home" data-mod="home">
+  <div class="hero">
+    <div class="hero-content">
+      <div class="hero-kicker">FIBROSIS × CANCER ECOSYSTEM NAVIGATOR</div>
+      <h1>你的疲勞、腦霧、疼痛<br>可能不是老化<br>是<span class="accent">纖維化</span>與<span class="accent">癌症生態系</span>失衡</h1>
+      <p>結合顏博士活力診所院長顏榮郎博士的抗癌生態系理論，帶你看懂慢性發炎、缺氧、纖維化、免疫失衡背後共同的根源。</p>
+      <div class="chain-display">
+        <span class="chain-pill">慢性發炎</span><span class="chain-arrow">→</span><span class="chain-pill">缺氧</span><span class="chain-arrow">→</span><span class="chain-pill">纖維化</span><span class="chain-arrow">→</span><span class="chain-pill">免疫失衡</span><span class="chain-arrow">→</span><span class="chain-pill">代謝失衡</span>
+        <span class="chain-arrow">→</span>
+        <span class="chain-result">癌症微環境惡化</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="page" style="padding-top:48px;">
+    <div class="section-head">
+      <div class="section-eyebrow">第一步</div>
+      <h2 class="section-title">您現在的身份是？</h2>
+      <p class="section-sub">選擇最符合您目前狀況的選項，系統會為您客製化後續內容的深度與方向。您可以隨時切換。</p>
+    </div>
+    <div class="audience-grid">
+      <div class="audience-card cancer" onclick="setAudience('cancer')">
+        <div class="ac-icon">🎗️</div>
+        <h3>我是癌症病友 / 家屬</h3>
+        <p>我或我的家人正在面對癌症診斷、治療或恢復過程，想了解整合性照護與纖維化、缺氧、免疫機制的關聯，並考慮專業評估資源。</p>
+        <div class="ac-cta">進入病友／家屬路徑 →</div>
+      </div>
+      <div class="audience-card healthy" onclick="setAudience('healthy')">
+        <div class="ac-icon">🌱</div>
+        <h3>我是亞健康保養族群</h3>
+        <p>我目前沒有重大疾病，但常感到疲勞、睡不好、腦霧、慢性疼痛，想了解根本原因並建立長期保養策略。</p>
+        <div class="ac-cta">進入保養路徑 →</div>
+      </div>
+    </div>
+
+    <div class="disclaimer">
+      ⚠️ 本系統提供的內容為衛教與健康資訊整理，目的是協助您理解慢性發炎、纖維化、腫瘤微環境等機制的基本概念，並非醫療診斷或治療建議。任何健康決策請務必諮詢專業醫師。
+    </div>
+  </div>
+</section>
+
+<section class="module-section" id="mod-theory" data-mod="theory">
+  <div class="page">
+    <div class="section-head">
+      <div class="section-eyebrow">Module 01</div>
+      <h2 class="section-title">顏醫師抗癌生態系理論館</h2>
+      <p class="section-sub">認識顏榮郎博士的學術背景，以及他多年來臨床推廣的四大核心觀念。</p>
+    </div>
+
+    <div class="clinic-card">
+      <div class="clinic-header">
+        <div>
+          <div class="clinic-name">顏榮郎 博士</div>
+          <div class="clinic-title">顏博士活力診所 院長</div>
+        </div>
+      </div>
+      <ul class="cred-list"><li>臺灣大學醫學系畢業</li><li>美國 MD Anderson Cancer Center（德州大學安德森癌症中心）腫瘤生物學博士</li><li>曾任長庚醫院放射腫瘤科主治醫師</li><li>曾任長庚大學醫學院副教授（教育部部定副教授）</li><li>曾任聖馬爾定醫院放射腫瘤科兼任主治醫師</li><li>創立顏博士活力診所與相關健康管理團隊</li></ul>
+      <div style="margin-top:18px;"><span class="ci-tag">腫瘤微環境（Tumor Microenvironment）</span> <span class="ci-tag">癌症缺氧（Tumor Hypoxia）</span> <span class="ci-tag">抗癌免疫</span> <span class="ci-tag">慢性發炎</span> <span class="ci-tag">營養醫學</span> <span class="ci-tag">生活型態醫學</span> <span class="ci-tag">癌症整體醫學（Holistic Medicine）</span> <span class="ci-tag">低毒性天然物應用</span> <span class="ci-tag">抗老化與活力醫學</span></div>
+    </div>
+
+    <div style="margin:32px 0;">
+      <h3 style="font-size:22px;margin-bottom:16px;">核心思想一句話</h3>
+      <div class="formula-box" style="font-size:19px;padding:24px;">「癌症不只是癌細胞問題，而是整個身體生態系失衡問題。」</div>
+    </div>
+
+    <div style="margin:32px 0;">
+      <h3 style="font-size:22px;margin-bottom:16px;">四大核心觀念</h3>
+      <div class="card-grid" style="grid-template-columns:1fr;">
+    <details class="click-card">
+      <summary><span class="ci-icon">⚖️</span> 抗癌就像減肥 <span style="color:var(--ink-soft);font-weight:400;font-size:14px;">Cancer Care is Like Weight Management</span><span class="ci-chevron">▾</span></summary>
+      <div class="ci-body">
+        <p style="font-weight:700;color:var(--navy);">抗癌不是找一顆神奇藥丸，而是長期建立一個不利癌細胞生存的身體環境。</p>
+        <p>顏醫師最知名的著作就是《抗癌就像減肥》。這個比喻精準點出多數人對抗癌的誤解：以為只要找到對的藥、對的療法，問題就解決了。</p><p>但就像減肥一樣，沒有一顆藥丸能讓體重永久下降——你需要改變整個代謝環境、生活模式、飲食結構。抗癌同樣如此：正規治療（手術、化療、放療、標靶、免疫治療）負責「打擊」癌細胞，但身體的「土壤」如果沒有改變，癌細胞遲早會找到新的生存空間。</p><p>這就是為什麼顏醫師強調：治療之外，飲食、運動、睡眠、壓力管理、營養調整，都是決定長期預後的關鍵變數，而不是「順便做做」的輔助項目。</p>
+        <div class="formula-box">正規治療（消滅癌細胞） + 體質改造（剝奪生存環境） = 長期控制</div>
+        <div class="quote-box">"抗癌不是一場戰役，是一場體質的長期工程。"</div>
+      </div>
+    </details>
+    <details class="click-card">
+      <summary><span class="ci-icon">🔥</span> 抗發炎體質 <span style="color:var(--ink-soft);font-weight:400;font-size:14px;">Anti-Inflammatory Constitution</span><span class="ci-chevron">▾</span></summary>
+      <div class="ci-body">
+        <p style="font-weight:700;color:var(--navy);">慢性發炎是癌症、老化、代謝疾病背後共同的上游機制。</p>
+        <p>顏醫師長期強調一個核心觀念：慢性發炎不是某一種病的症狀，而是癌症、老化、代謝疾病（糖尿病、心血管疾病、脂肪肝）共同的上游機制。</p><p>急性發炎是身體的修復反應，傷口會癒合、感染會清除。但當發炎訊號持續存在卻沒有被關閉——無論是因為飲食、壓力、缺乏運動、或環境毒素——身體就進入「慢性低度發炎」狀態。</p><p>這種慢性發炎會持續釋放細胞激素，干擾免疫監控機制，同時為癌細胞創造有利的微環境。這也是為什麼飲食與營養策略的核心目標，往往被歸結為一句話：降低慢性發炎。</p>
+        <div class="formula-box">持續發炎訊號 → 免疫監控失靈 + 異常細胞存活機會增加 → 疾病風險上升</div>
+        <div class="quote-box">"發炎是火苗，疾病是火災。處理火苗，比救火更重要。"</div>
+      </div>
+    </details>
+    <details class="click-card">
+      <summary><span class="ci-icon">🫁</span> 腫瘤缺氧理論 <span style="color:var(--ink-soft);font-weight:400;font-size:14px;">Tumor Hypoxia Theory</span><span class="ci-chevron">▾</span></summary>
+      <div class="ci-body">
+        <p style="font-weight:700;color:var(--navy);">腫瘤內部的缺氧環境會讓癌細胞更惡性、更會轉移、對治療更有抗性。</p>
+        <p>顏醫師的博士訓練來自MD Anderson癌症中心，他特別重視「腫瘤缺氧」這個機制——當腫瘤快速生長，血管供應跟不上需求，腫瘤內部就會出現氧氣不足的區域。</p><p>這個缺氧環境對癌細胞來說不是壞事，反而是「篩選器」：能在缺氧環境存活下來的癌細胞，往往是更惡性、更具侵襲性、更容易轉移的細胞株。同時，缺氧也會抑制免疫細胞的攻擊能力，並降低化療、放療的效果（因為許多治療機制依賴氧氣產生自由基來殺死癌細胞）。</p><p>因此，改善身體的循環系統與氧氣利用能力——從心肺功能、微循環、到細胞層級的氧氣使用效率——是這個理論框架下非常重要的改善方向。</p>
+        <div class="formula-box">腫瘤缺氧 → 篩選出惡性細胞株 + 免疫抑制 + 治療抗性 → 預後變差</div>
+        <div class="quote-box">"氧氣不只是燃料，是戰場上決定誰能存活的篩選機制。"</div>
+      </div>
+    </details>
+    <details class="click-card">
+      <summary><span class="ci-icon">🛡️</span> 啟動自體抗癌力 <span style="color:var(--ink-soft);font-weight:400;font-size:14px;">Activating Endogenous Anti-Cancer Capacity</span><span class="ci-chevron">▾</span></summary>
+      <div class="ci-body">
+        <p style="font-weight:700;color:var(--navy);">與「殺癌」相比，顏醫師更常談的是提升身體本身的抗癌能力。</p>
+        <p>相較於把重點放在「如何更有效地殺死癌細胞」，顏醫師更常談的是另一個方向：如何提升身體本身原本就具備的抗癌能力。</p><p>這包括NK細胞（自然殺手細胞）的活性與數量、T細胞的識別與攻擊能力、整體免疫系統的平衡狀態（避免過度發炎，也避免免疫抑制），以及身體的修復能力——能不能及時清除受損細胞、修復組織、維持組織的正常結構而不走向纖維化。</p><p>這個觀念的核心邏輯是：人體本來就有監控與清除異常細胞的機制，多數時候癌症之所以發生與惡化，是因為這套監控系統被慢性發炎、缺氧、營養失衡、壓力等因素長期削弱。重建這套系統，比單純依賴外部治療更具長期意義。</p>
+        <div class="formula-box">改善發炎 + 改善循環 + 改善營養 + 改善修復 → 自體抗癌力提升</div>
+        <div class="quote-box">"你的身體本來就有一支軍隊，問題是它有沒有被養好。"</div>
+      </div>
+    </details></div>
+    </div>
+
+    <div style="margin:36px 0;">
+      <h3 style="font-size:22px;margin-bottom:16px;">生態系核心公式</h3>
+      <div style="background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:28px;box-shadow:var(--shadow);">
+        <p style="font-weight:700;color:var(--cancer-accent);margin-bottom:10px;">問題鏈：</p>
+        <div class="chain-display" style="justify-content:flex-start;"><span class="chain-pill" style="background:rgba(140,47,47,0.12);border-color:rgba(140,47,47,0.3);color:var(--cancer-accent);">慢性發炎</span><span class="chain-arrow" style="color:var(--cancer-accent);">→</span><span class="chain-pill" style="background:rgba(140,47,47,0.12);border-color:rgba(140,47,47,0.3);color:var(--cancer-accent);">缺氧</span><span class="chain-arrow" style="color:var(--cancer-accent);">→</span><span class="chain-pill" style="background:rgba(140,47,47,0.12);border-color:rgba(140,47,47,0.3);color:var(--cancer-accent);">纖維化</span><span class="chain-arrow" style="color:var(--cancer-accent);">→</span><span class="chain-pill" style="background:rgba(140,47,47,0.12);border-color:rgba(140,47,47,0.3);color:var(--cancer-accent);">免疫失衡</span><span class="chain-arrow" style="color:var(--cancer-accent);">→</span><span class="chain-pill" style="background:rgba(140,47,47,0.12);border-color:rgba(140,47,47,0.3);color:var(--cancer-accent);">代謝失衡</span><span class="chain-arrow" style="color:var(--cancer-accent);">→</span><span class="chain-result">癌症微環境惡化</span></div>
+        <p style="font-weight:700;color:var(--teal);margin:20px 0 10px;">解方鏈：</p>
+        <div class="chain-display" style="justify-content:flex-start;"><span class="chain-pill" style="background:rgba(46,125,91,0.12);border-color:rgba(46,125,91,0.3);color:var(--teal);">改善發炎</span><span class="chain-arrow" style="color:var(--teal);">→</span><span class="chain-pill" style="background:rgba(46,125,91,0.12);border-color:rgba(46,125,91,0.3);color:var(--teal);">改善循環</span><span class="chain-arrow" style="color:var(--teal);">→</span><span class="chain-pill" style="background:rgba(46,125,91,0.12);border-color:rgba(46,125,91,0.3);color:var(--teal);">改善纖維化</span><span class="chain-arrow" style="color:var(--teal);">→</span><span class="chain-pill" style="background:rgba(46,125,91,0.12);border-color:rgba(46,125,91,0.3);color:var(--teal);">改善免疫</span><span class="chain-arrow" style="color:var(--teal);">→</span><span class="chain-pill" style="background:rgba(46,125,91,0.12);border-color:rgba(46,125,91,0.3);color:var(--teal);">改善營養</span><span class="chain-arrow" style="color:var(--teal);">→</span><span class="chain-pill" style="background:rgba(46,125,91,0.15);color:var(--teal);border-color:rgba(46,125,91,0.3);">提升自體抗癌力</span></div>
+        <p style="margin-top:18px;color:var(--ink-soft);">纖維化不是獨立的問題，而是慢性發炎長期未被處理後，身體錯誤修復的產物。它本身會讓微環境更適合癌細胞生長，也會讓藥物與免疫細胞更難進入病灶——這正是為什麼把纖維化納入顏醫師的抗癌生態系框架中，是完整理解這個問題不可缺少的一塊拼圖。</p>
+      </div>
+    </div>
+
+    <div class="book-strip">
+      <div class="bs-icon">📖</div>
+      <div>
+        <h4>《抗癌就像減肥》（2013）</h4>
+        <p>抗癌不是找到仙丹，而是長期建立不利癌細胞生存的體質。減肥沒有特效藥，抗癌也沒有。兩者都需要的是：長期、系統性、可持續的體質改造工程。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="module-section" id="mod-risk" data-mod="risk">
+  <div class="page">
+    <div class="section-head">
+      <div class="section-eyebrow">Module 02</div>
+      <h2 class="section-title">纖維化風險檢測</h2>
+      <p class="section-sub">20項常見訊號，勾選符合您目前狀況的項目，了解您的纖維化風險分數。</p>
+    </div>
+
+    <div id="risk-quiz-form">
+      <div class="quiz-progress"><div class="quiz-progress-bar" id="risk-progress-bar" style="width:0%;"></div></div>
+      <div id="risk-quiz-list">
+    <label class="quiz-item" data-weight="4">
+      <input type="checkbox" class="risk-checkbox" data-weight="4" onchange="onRiskCheck(this)">
+      <span>經常感到疲勞，即使睡飽也沒有改善</span>
+    </label>
+    <label class="quiz-item" data-weight="4">
+      <input type="checkbox" class="risk-checkbox" data-weight="4" onchange="onRiskCheck(this)">
+      <span>睡醒之後仍感覺疲憊，沒有恢復感</span>
+    </label>
+    <label class="quiz-item" data-weight="4">
+      <input type="checkbox" class="risk-checkbox" data-weight="4" onchange="onRiskCheck(this)">
+      <span>長期入睡困難或半夜易醒（超過3個月）</span>
+    </label>
+    <label class="quiz-item" data-weight="4">
+      <input type="checkbox" class="risk-checkbox" data-weight="4" onchange="onRiskCheck(this)">
+      <span>經常出現腦霧、思緒不清晰、健忘</span>
+    </label>
+    <label class="quiz-item" data-weight="4">
+      <input type="checkbox" class="risk-checkbox" data-weight="4" onchange="onRiskCheck(this)">
+      <span>有慢性疼痛問題（超過3個月未緩解）</span>
+    </label>
+    <label class="quiz-item" data-weight="3">
+      <input type="checkbox" class="risk-checkbox" data-weight="3" onchange="onRiskCheck(this)">
+      <span>晨起關節僵硬，活動後才緩解</span>
+    </label>
+    <label class="quiz-item" data-weight="5">
+      <input type="checkbox" class="risk-checkbox" data-weight="5" onchange="onRiskCheck(this)">
+      <span>已知有高血糖或糖尿病前期</span>
+    </label>
+    <label class="quiz-item" data-weight="4">
+      <input type="checkbox" class="risk-checkbox" data-weight="4" onchange="onRiskCheck(this)">
+      <span>已知有高血壓</span>
+    </label>
+    <label class="quiz-item" data-weight="5">
+      <input type="checkbox" class="risk-checkbox" data-weight="5" onchange="onRiskCheck(this)">
+      <span>曾被診斷或懷疑有脂肪肝</span>
+    </label>
+    <label class="quiz-item" data-weight="6">
+      <input type="checkbox" class="risk-checkbox" data-weight="6" onchange="onRiskCheck(this)">
+      <span>有自體免疫疾病病史</span>
+    </label>
+    <label class="quiz-item" data-weight="6">
+      <input type="checkbox" class="risk-checkbox" data-weight="6" onchange="onRiskCheck(this)">
+      <span>有癌症病史（本人或一級親屬）</span>
+    </label>
+    <label class="quiz-item" data-weight="5">
+      <input type="checkbox" class="risk-checkbox" data-weight="5" onchange="onRiskCheck(this)">
+      <span>曾感染新冠病毒，至今仍有未完全恢復的症狀</span>
+    </label>
+    <label class="quiz-item" data-weight="4">
+      <input type="checkbox" class="risk-checkbox" data-weight="4" onchange="onRiskCheck(this)">
+      <span>有反覆發生或慢性感染問題</span>
+    </label>
+    <label class="quiz-item" data-weight="3">
+      <input type="checkbox" class="risk-checkbox" data-weight="3" onchange="onRiskCheck(this)">
+      <span>腸胃功能不佳，容易脹氣或消化不良</span>
+    </label>
+    <label class="quiz-item" data-weight="3">
+      <input type="checkbox" class="risk-checkbox" data-weight="3" onchange="onRiskCheck(this)">
+      <span>長期便秘（每週排便少於3次）</span>
+    </label>
+    <label class="quiz-item" data-weight="3">
+      <input type="checkbox" class="risk-checkbox" data-weight="3" onchange="onRiskCheck(this)">
+      <span>長期腹瀉或排便不成形</span>
+    </label>
+    <label class="quiz-item" data-weight="3">
+      <input type="checkbox" class="risk-checkbox" data-weight="3" onchange="onRiskCheck(this)">
+      <span>幾乎沒有規律運動習慣</span>
+    </label>
+    <label class="quiz-item" data-weight="4">
+      <input type="checkbox" class="risk-checkbox" data-weight="4" onchange="onRiskCheck(this)">
+      <span>長期處於高壓力狀態</span>
+    </label>
+    <label class="quiz-item" data-weight="5">
+      <input type="checkbox" class="risk-checkbox" data-weight="5" onchange="onRiskCheck(this)">
+      <span>目前有抽菸習慣</span>
+    </label>
+    <label class="quiz-item" data-weight="4">
+      <input type="checkbox" class="risk-checkbox" data-weight="4" onchange="onRiskCheck(this)">
+      <span>BMI超過27，或腰圍明顯超標</span>
+    </label></div>
+      <div class="quiz-actions">
+        <span style="color:var(--ink-soft);font-weight:700;" id="risk-count-label">已勾選 0 / 20 項</span>
+        <button class="btn gold" onclick="submitRiskQuiz()">查看評估結果</button>
+      </div>
+    </div>
+
+    <div id="risk-result-panel" style="display:none;"></div>
+  </div>
+</section>
+<script>window.__RISK_BANDS__ = [{"min":0,"max":20,"level":"低風險","color":"#2E7D5B","desc":"目前風險指標偏低，但這不代表可以完全忽略保養。建議持續觀察身體訊號，維持良好的生活習慣作為長期防線。","cancerNote":"若您是癌症病友／家屬參考此結果，仍建議與主治醫師討論整體生活型態調整方向。","healthyNote":"您目前的身體基礎不錯，是建立長期保養習慣的最佳時機——預防永遠比治療輕鬆。"},{"min":21,"max":40,"level":"中風險","color":"#C9962F","desc":"身體已經出現多個慢性訊號，這些症狀往往被當作「老化」或「太累」而忽略，但它們很可能指向同一個根源：慢性發炎與錯誤修復機制正在累積。","cancerNote":"對癌症病友／家屬而言，這個分數提醒您：除了正規治療，身體的發炎與修復系統也值得被認真評估與處理。","healthyNote":"現在介入調整，效果通常比等到症狀更嚴重時介入要好得多。"},{"min":41,"max":60,"level":"高風險","color":"#B5562B","desc":"多項指標同時存在，顯示身體可能已經處於長期慢性發炎、循環不良、修復能力下降的狀態。這個階段建議尋求專業評估，而非單靠自我調整。","cancerNote":"建議您將這份評估結果帶給專業醫療團隊參考，特別是在治療期間或治療後的恢復階段，纖維化與發炎機制的處理會直接影響生活品質與預後。","healthyNote":"建議優先處理發炎與循環問題，並考慮專業評估找出根本原因，而不是逐一處理表面症狀。"},{"min":61,"max":999,"level":"高度疑似纖維化體質","color":"#8C2F2F","desc":"您的評估結果顯示，身體很可能已經處於慢性發炎、缺氧、纖維化交互影響的狀態，這類體質需要系統性的專業評估與介入，單一保健品或單一生活調整往往不足以扭轉局面。","cancerNote":"強烈建議您預約專業評估（如顏博士活力診所），讓專業團隊根據您的完整病史與檢驗數據，規劃整合性的調整方案。","healthyNote":"這個分數區間通常意味著身體已經發出多重警報，建議不要再自行嘗試拼湊式保養，尋求一次完整的專業評估會更有效率。"}];</script>
+
+<section class="module-section" id="mod-map" data-mod="map">
+  <div class="page">
+    <div class="section-head">
+      <div class="section-eyebrow">Module 03</div>
+      <h2 class="section-title">癌症生態系地圖</h2>
+      <p class="section-sub">七大器官分支，加上缺氧、免疫失衡、代謝失衡三條額外路徑——點擊展開了解每個系統的生成機制。</p>
+    </div>
+    <div class="card-grid" style="grid-template-columns:1fr;">
+    <details class="click-card map-node-detail">
+      <summary><span class="ci-icon">🧠</span> 腦<span class="ci-chevron">▾</span></summary>
+      <div class="ci-body">
+        <p style="font-weight:700;color:var(--navy);margin-bottom:6px;">生成路徑：</p>
+        <div class="pathway-flow"><span class="pathway-step">慢性發炎</span><span class="pathway-arrow">→</span><span class="pathway-step">腦部微膠細胞活化</span><span class="pathway-arrow">→</span><span class="pathway-step">神經發炎</span><span class="pathway-arrow">→</span><span class="pathway-step">腦纖維化</span></div>
+        <p style="font-weight:700;color:var(--cancer-accent);margin:12px 0 6px;">可能結果：</p>
+        <div class="outcome-tags"><span class="outcome-tag">失智風險上升</span><span class="outcome-tag">腦霧</span><span class="outcome-tag">憂鬱情緒</span><span class="outcome-tag">認知功能下降</span></div>
+        <div class="yen-link-box">🔗 與顏醫師理論的連結：缺氧與慢性發炎同時影響腦部微循環，是顏醫師強調循環改善的重點區域之一。</div>
+      </div>
+    </details>
+    <details class="click-card map-node-detail">
+      <summary><span class="ci-icon">🫁</span> 肺<span class="ci-chevron">▾</span></summary>
+      <div class="ci-body">
+        <p style="font-weight:700;color:var(--navy);margin-bottom:6px;">生成路徑：</p>
+        <div class="pathway-flow"><span class="pathway-step">反覆發炎/感染</span><span class="pathway-arrow">→</span><span class="pathway-step">肺泡損傷</span><span class="pathway-arrow">→</span><span class="pathway-step">錯誤修復</span><span class="pathway-arrow">→</span><span class="pathway-step">肺纖維化</span></div>
+        <p style="font-weight:700;color:var(--cancer-accent);margin:12px 0 6px;">可能結果：</p>
+        <div class="outcome-tags"><span class="outcome-tag">容易喘</span><span class="outcome-tag">血氧偏低</span><span class="outcome-tag">肺功能逐漸下降</span></div>
+        <div class="yen-link-box">🔗 與顏醫師理論的連結：肺纖維化會直接降低全身氧氣供應效率，與顏醫師的腫瘤缺氧理論直接相關——氧氣利用能力下降，連帶影響其他器官與免疫系統。</div>
+      </div>
+    </details>
+    <details class="click-card map-node-detail">
+      <summary><span class="ci-icon">🫀</span> 肝<span class="ci-chevron">▾</span></summary>
+      <div class="ci-body">
+        <p style="font-weight:700;color:var(--navy);margin-bottom:6px;">生成路徑：</p>
+        <div class="pathway-flow"><span class="pathway-step">代謝負擔過重</span><span class="pathway-arrow">→</span><span class="pathway-step">脂肪堆積</span><span class="pathway-arrow">→</span><span class="pathway-step">肝細胞發炎</span><span class="pathway-arrow">→</span><span class="pathway-step">肝纖維化</span></div>
+        <p style="font-weight:700;color:var(--cancer-accent);margin:12px 0 6px;">可能結果：</p>
+        <div class="outcome-tags"><span class="outcome-tag">脂肪肝</span><span class="outcome-tag">肝功能異常</span><span class="outcome-tag">進展為肝硬化風險</span></div>
+        <div class="yen-link-box">🔗 與顏醫師理論的連結：肝臟是身體主要的代謝與解毒器官，肝纖維化會削弱身體處理發炎物質與毒素的能力，間接加重全身性發炎負擔。</div>
+      </div>
+    </details>
+    <details class="click-card map-node-detail">
+      <summary><span class="ci-icon">💧</span> 腎<span class="ci-chevron">▾</span></summary>
+      <div class="ci-body">
+        <p style="font-weight:700;color:var(--navy);margin-bottom:6px;">生成路徑：</p>
+        <div class="pathway-flow"><span class="pathway-step">長期高血糖/高血壓</span><span class="pathway-arrow">→</span><span class="pathway-step">腎小球損傷</span><span class="pathway-arrow">→</span><span class="pathway-step">錯誤修復</span><span class="pathway-arrow">→</span><span class="pathway-step">腎纖維化</span></div>
+        <p style="font-weight:700;color:var(--cancer-accent);margin:12px 0 6px;">可能結果：</p>
+        <div class="outcome-tags"><span class="outcome-tag">腎功能逐漸下降</span><span class="outcome-tag">水腫</span><span class="outcome-tag">代謝廢物清除能力降低</span></div>
+        <div class="yen-link-box">🔗 與顏醫師理論的連結：腎功能下降會影響身體排除代謝廢物與發炎物質的效率，形成發炎難以消退的惡性循環。</div>
+      </div>
+    </details>
+    <details class="click-card map-node-detail">
+      <summary><span class="ci-icon">❤️</span> 心臟<span class="ci-chevron">▾</span></summary>
+      <div class="ci-body">
+        <p style="font-weight:700;color:var(--navy);margin-bottom:6px;">生成路徑：</p>
+        <div class="pathway-flow"><span class="pathway-step">慢性發炎</span><span class="pathway-arrow">→</span><span class="pathway-step">心肌組織損傷</span><span class="pathway-arrow">→</span><span class="pathway-step">錯誤修復</span><span class="pathway-arrow">→</span><span class="pathway-step">心臟纖維化</span></div>
+        <p style="font-weight:700;color:var(--cancer-accent);margin:12px 0 6px;">可能結果：</p>
+        <div class="outcome-tags"><span class="outcome-tag">心律不整風險上升</span><span class="outcome-tag">心臟收縮效率下降</span></div>
+        <div class="yen-link-box">🔗 與顏醫師理論的連結：心臟功能直接決定全身血液與氧氣輸送效率，與顏醫師強調的「改善循環」高度相關。</div>
+      </div>
+    </details>
+    <details class="click-card map-node-detail">
+      <summary><span class="ci-icon">🦴</span> 關節<span class="ci-chevron">▾</span></summary>
+      <div class="ci-body">
+        <p style="font-weight:700;color:var(--navy);margin-bottom:6px;">生成路徑：</p>
+        <div class="pathway-flow"><span class="pathway-step">反覆發炎</span><span class="pathway-arrow">→</span><span class="pathway-step">軟骨/滑膜損傷</span><span class="pathway-arrow">→</span><span class="pathway-step">錯誤修復</span><span class="pathway-arrow">→</span><span class="pathway-step">關節纖維化</span></div>
+        <p style="font-weight:700;color:var(--cancer-accent);margin:12px 0 6px;">可能結果：</p>
+        <div class="outcome-tags"><span class="outcome-tag">關節退化</span><span class="outcome-tag">活動受限</span><span class="outcome-tag">慢性疼痛</span></div>
+        <div class="yen-link-box">🔗 與顏醫師理論的連結：慢性疼痛會進一步提升壓力與發炎指標，形成「疼痛→發炎→更多疼痛」的循環。</div>
+      </div>
+    </details>
+    <details class="click-card map-node-detail">
+      <summary><span class="ci-icon">🦠</span> 腸道<span class="ci-chevron">▾</span></summary>
+      <div class="ci-body">
+        <p style="font-weight:700;color:var(--navy);margin-bottom:6px;">生成路徑：</p>
+        <div class="pathway-flow"><span class="pathway-step">腸道菌相失衡</span><span class="pathway-arrow">→</span><span class="pathway-step">腸壁通透性增加</span><span class="pathway-arrow">→</span><span class="pathway-step">慢性低度發炎</span><span class="pathway-arrow">→</span><span class="pathway-step">腸道纖維化</span></div>
+        <p style="font-weight:700;color:var(--cancer-accent);margin:12px 0 6px;">可能結果：</p>
+        <div class="outcome-tags"><span class="outcome-tag">營養吸收不良</span><span class="outcome-tag">免疫系統失調</span><span class="outcome-tag">全身發炎指標上升</span></div>
+        <div class="yen-link-box">🔗 與顏醫師理論的連結：腸道是人體最大的免疫器官，腸道發炎會直接影響全身免疫平衡，是顏醫師營養醫學策略的核心戰場之一。</div>
+      </div>
+    </details>
+    <details class="click-card map-node-detail">
+      <summary><span class="ci-icon">🎯</span> 腫瘤微環境<span class="ci-chevron">▾</span></summary>
+      <div class="ci-body">
+        <p style="font-weight:700;color:var(--navy);margin-bottom:6px;">生成路徑：</p>
+        <div class="pathway-flow"><span class="pathway-step">慢性發炎 + 缺氧</span><span class="pathway-arrow">→</span><span class="pathway-step">癌周纖維化（CAF活化）</span><span class="pathway-arrow">→</span><span class="pathway-step">免疫細胞被阻隔在外</span><span class="pathway-arrow">→</span><span class="pathway-step">微環境惡化</span></div>
+        <p style="font-weight:700;color:var(--cancer-accent);margin:12px 0 6px;">可能結果：</p>
+        <div class="outcome-tags"><span class="outcome-tag">癌細胞更難被免疫系統清除</span><span class="outcome-tag">藥物與免疫細胞滲透率下降</span><span class="outcome-tag">腫瘤微環境惡化</span></div>
+        <div class="yen-link-box">🔗 與顏醫師理論的連結：這正是顏醫師理論的核心戰場：腫瘤周邊的纖維化組織（癌相關纖維母細胞，CAF）會形成物理屏障，讓化療藥物與免疫細胞都更難進入腫瘤內部，同時缺氧環境又進一步篩選出更惡性的癌細胞株。</div>
+      </div>
+    </details>
+    <details class="click-card map-node-detail">
+      <summary><span class="ci-icon">🌫️</span> 缺氧路徑<span class="ci-chevron">▾</span></summary>
+      <div class="ci-body">
+        <p style="font-weight:700;color:var(--navy);margin-bottom:6px;">生成路徑：</p>
+        <div class="pathway-flow"><span class="pathway-step">血管供應不足</span><span class="pathway-arrow">→</span><span class="pathway-step">組織氧氣濃度下降</span><span class="pathway-arrow">→</span><span class="pathway-step">細胞代謝轉換（無氧代謝）</span><span class="pathway-arrow">→</span><span class="pathway-step">活性氧自由基累積</span></div>
+        <p style="font-weight:700;color:var(--cancer-accent);margin:12px 0 6px;">可能結果：</p>
+        <div class="outcome-tags"><span class="outcome-tag">細胞功能下降</span><span class="outcome-tag">免疫細胞活性受抑制</span><span class="outcome-tag">治療效果降低（化療/放療依賴氧氣產生自由基）</span></div>
+        <div class="yen-link-box">🔗 與顏醫師理論的連結：這是顏醫師博士訓練背景（MD Anderson）的核心研究方向，也是他臨床推廣中最常強調的機制之一。</div>
+      </div>
+    </details>
+    <details class="click-card map-node-detail">
+      <summary><span class="ci-icon">🛡️</span> 免疫失衡路徑<span class="ci-chevron">▾</span></summary>
+      <div class="ci-body">
+        <p style="font-weight:700;color:var(--navy);margin-bottom:6px;">生成路徑：</p>
+        <div class="pathway-flow"><span class="pathway-step">長期發炎刺激</span><span class="pathway-arrow">→</span><span class="pathway-step">免疫細胞耗竭/失能</span><span class="pathway-arrow">→</span><span class="pathway-step">NK細胞與T細胞活性下降</span><span class="pathway-arrow">→</span><span class="pathway-step">免疫監控漏洞</span></div>
+        <p style="font-weight:700;color:var(--cancer-accent);margin:12px 0 6px;">可能結果：</p>
+        <div class="outcome-tags"><span class="outcome-tag">異常細胞清除效率降低</span><span class="outcome-tag">感染風險上升</span><span class="outcome-tag">慢性病與癌症風險同步上升</span></div>
+        <div class="yen-link-box">🔗 與顏醫師理論的連結：顏醫師「啟動自體抗癌力」的核心觀念，正是針對這條路徑——重建NK細胞與T細胞的正常功能，而非單純依賴外部治療殺癌。</div>
+      </div>
+    </details>
+    <details class="click-card map-node-detail">
+      <summary><span class="ci-icon">⚙️</span> 代謝失衡路徑<span class="ci-chevron">▾</span></summary>
+      <div class="ci-body">
+        <p style="font-weight:700;color:var(--navy);margin-bottom:6px;">生成路徑：</p>
+        <div class="pathway-flow"><span class="pathway-step">胰島素阻抗</span><span class="pathway-arrow">→</span><span class="pathway-step">細胞能量代謝效率下降</span><span class="pathway-arrow">→</span><span class="pathway-step">粒線體功能受損</span><span class="pathway-arrow">→</span><span class="pathway-step">全身發炎負擔加重</span></div>
+        <p style="font-weight:700;color:var(--cancer-accent);margin:12px 0 6px;">可能結果：</p>
+        <div class="outcome-tags"><span class="outcome-tag">體重與血糖控制困難</span><span class="outcome-tag">疲勞感加重</span><span class="outcome-tag">細胞修復能力下降</span></div>
+        <div class="yen-link-box">🔗 與顏醫師理論的連結：代謝失衡與慢性發炎互為因果，這也是「抗癌就像減肥」這個比喻背後真正的生理學基礎——兩者共享同一套上游機制。</div>
+      </div>
+    </details></div>
+  </div>
+</section>
+
+<section class="module-section" id="mod-symptom" data-mod="symptom">
+  <div class="page">
+    <div class="section-head">
+      <div class="section-eyebrow">Module 04</div>
+      <h2 class="section-title">症狀導航</h2>
+      <p class="section-sub">我最困擾的是……點擊您最在意的症狀，直接連結到對應的原因樹分析。</p>
+    </div>
+    <div class="symptom-pills"><button class="symptom-pill" data-sid="fatigue" onclick="selectSymptom('fatigue')">疲勞</button><button class="symptom-pill" data-sid="sleep" onclick="selectSymptom('sleep')">睡眠</button><button class="symptom-pill" data-sid="brain" onclick="selectSymptom('brain')">腦霧</button><button class="symptom-pill" data-sid="pain" onclick="selectSymptom('pain')">疼痛</button><button class="symptom-pill" data-sid="immune" onclick="selectSymptom('immune')">免疫</button><button class="symptom-pill" data-sid="gut" onclick="selectSymptom('gut')">腸胃</button><button class="symptom-pill" data-sid="cancer" onclick="selectSymptom('cancer')">癌症</button><button class="symptom-pill" data-sid="circulation" onclick="selectSymptom('circulation')">循環</button><button class="symptom-pill" data-sid="mood" onclick="selectSymptom('mood')">情緒</button></div>
+    <div id="symptom-result" style="display:none;"></div>
+  </div>
+</section>
+<script>
+  window.__SYMPTOM_NAV__ = [{"id":"fatigue","label":"疲勞","linkOrgans":["metabolic-path","liver","gut"],"desc":"疲勞往往不是單一原因，而是能量代謝、肝臟負荷、腸道吸收三者交互影響的結果。"},{"id":"sleep","label":"睡眠","linkOrgans":["brain","metabolic-path"],"desc":"睡眠品質與神經發炎、皮質醇節律失衡密切相關。"},{"id":"brain","label":"腦霧","linkOrgans":["brain","hypoxia-path"],"desc":"腦霧常與腦部血流、氧氣供應、神經發炎三個因素同時相關。"},{"id":"pain","label":"疼痛","linkOrgans":["joint","immune-path"],"desc":"慢性疼痛本身會持續觸發發炎反應，形成自我維持的迴圈。"},{"id":"immune","label":"免疫","linkOrgans":["immune-path","gut"],"desc":"免疫系統的根基在腸道，多數免疫失衡問題都可以追溯到腸道菌相與發炎狀態。"},{"id":"gut","label":"腸胃","linkOrgans":["gut","liver"],"desc":"腸道與肝臟透過「腸肝循環」緊密相連，腸道問題往往會直接加重肝臟負擔。"},{"id":"cancer","label":"癌症","linkOrgans":["tumor","hypoxia-path","immune-path"],"desc":"癌症微環境的惡化，是缺氧、纖維化、免疫失衡三條路徑同時作用的結果——這正是顏醫師理論框架的核心。"},{"id":"circulation","label":"循環","linkOrgans":["heart","hypoxia-path"],"desc":"循環效率直接決定全身細胞的氧氣與營養供應品質。"},{"id":"mood","label":"情緒","linkOrgans":["brain","metabolic-path"],"desc":"情緒問題往往有生理基礎，神經發炎與代謝狀態都會直接影響情緒調節能力。"}];
+  window.__ECOSYSTEM_MAP_BY_ID__ = {"brain":{"id":"brain","organ":"腦","icon":"🧠","pathway":["慢性發炎","腦部微膠細胞活化","神經發炎","腦纖維化"],"outcomes":["失智風險上升","腦霧","憂鬱情緒","認知功能下降"],"yenLink":"缺氧與慢性發炎同時影響腦部微循環，是顏醫師強調循環改善的重點區域之一。"},"lung":{"id":"lung","organ":"肺","icon":"🫁","pathway":["反覆發炎/感染","肺泡損傷","錯誤修復","肺纖維化"],"outcomes":["容易喘","血氧偏低","肺功能逐漸下降"],"yenLink":"肺纖維化會直接降低全身氧氣供應效率，與顏醫師的腫瘤缺氧理論直接相關——氧氣利用能力下降，連帶影響其他器官與免疫系統。"},"liver":{"id":"liver","organ":"肝","icon":"🫀","pathway":["代謝負擔過重","脂肪堆積","肝細胞發炎","肝纖維化"],"outcomes":["脂肪肝","肝功能異常","進展為肝硬化風險"],"yenLink":"肝臟是身體主要的代謝與解毒器官，肝纖維化會削弱身體處理發炎物質與毒素的能力，間接加重全身性發炎負擔。"},"kidney":{"id":"kidney","organ":"腎","icon":"💧","pathway":["長期高血糖/高血壓","腎小球損傷","錯誤修復","腎纖維化"],"outcomes":["腎功能逐漸下降","水腫","代謝廢物清除能力降低"],"yenLink":"腎功能下降會影響身體排除代謝廢物與發炎物質的效率，形成發炎難以消退的惡性循環。"},"heart":{"id":"heart","organ":"心臟","icon":"❤️","pathway":["慢性發炎","心肌組織損傷","錯誤修復","心臟纖維化"],"outcomes":["心律不整風險上升","心臟收縮效率下降"],"yenLink":"心臟功能直接決定全身血液與氧氣輸送效率，與顏醫師強調的「改善循環」高度相關。"},"joint":{"id":"joint","organ":"關節","icon":"🦴","pathway":["反覆發炎","軟骨/滑膜損傷","錯誤修復","關節纖維化"],"outcomes":["關節退化","活動受限","慢性疼痛"],"yenLink":"慢性疼痛會進一步提升壓力與發炎指標，形成「疼痛→發炎→更多疼痛」的循環。"},"gut":{"id":"gut","organ":"腸道","icon":"🦠","pathway":["腸道菌相失衡","腸壁通透性增加","慢性低度發炎","腸道纖維化"],"outcomes":["營養吸收不良","免疫系統失調","全身發炎指標上升"],"yenLink":"腸道是人體最大的免疫器官，腸道發炎會直接影響全身免疫平衡，是顏醫師營養醫學策略的核心戰場之一。"},"tumor":{"id":"tumor","organ":"腫瘤微環境","icon":"🎯","pathway":["慢性發炎 + 缺氧","癌周纖維化（CAF活化）","免疫細胞被阻隔在外","微環境惡化"],"outcomes":["癌細胞更難被免疫系統清除","藥物與免疫細胞滲透率下降","腫瘤微環境惡化"],"yenLink":"這正是顏醫師理論的核心戰場：腫瘤周邊的纖維化組織（癌相關纖維母細胞，CAF）會形成物理屏障，讓化療藥物與免疫細胞都更難進入腫瘤內部，同時缺氧環境又進一步篩選出更惡性的癌細胞株。"},"hypoxia-path":{"id":"hypoxia-path","organ":"缺氧路徑","icon":"🌫️","pathway":["血管供應不足","組織氧氣濃度下降","細胞代謝轉換（無氧代謝）","活性氧自由基累積"],"outcomes":["細胞功能下降","免疫細胞活性受抑制","治療效果降低（化療/放療依賴氧氣產生自由基）"],"yenLink":"這是顏醫師博士訓練背景（MD Anderson）的核心研究方向，也是他臨床推廣中最常強調的機制之一。"},"immune-path":{"id":"immune-path","organ":"免疫失衡路徑","icon":"🛡️","pathway":["長期發炎刺激","免疫細胞耗竭/失能","NK細胞與T細胞活性下降","免疫監控漏洞"],"outcomes":["異常細胞清除效率降低","感染風險上升","慢性病與癌症風險同步上升"],"yenLink":"顏醫師「啟動自體抗癌力」的核心觀念，正是針對這條路徑——重建NK細胞與T細胞的正常功能，而非單純依賴外部治療殺癌。"},"metabolic-path":{"id":"metabolic-path","organ":"代謝失衡路徑","icon":"⚙️","pathway":["胰島素阻抗","細胞能量代謝效率下降","粒線體功能受損","全身發炎負擔加重"],"outcomes":["體重與血糖控制困難","疲勞感加重","細胞修復能力下降"],"yenLink":"代謝失衡與慢性發炎互為因果，這也是「抗癌就像減肥」這個比喻背後真正的生理學基礎——兩者共享同一套上游機制。"}};
+</script>
+
+<section class="module-section" id="mod-animation" data-mod="animation">
+  <div class="page">
+    <div class="section-head">
+      <div class="section-eyebrow">Module 05</div>
+      <h2 class="section-title">機制動畫館</h2>
+      <p class="section-sub">點擊播放，逐步看懂正常修復、纖維化生成、缺氧惡性循環、自體抗癌力啟動的完整機制。</p>
+    </div>
+    
+    <div class="anim-card">
+      <h3>正常修復機制</h3>
+      <div class="anim-steps" id="anim-normal-repair"><span class="anim-step" data-step="0">組織受傷</span><span class="anim-arrow-sep">→</span><span class="anim-step" data-step="1">發炎反應啟動（清除損傷）</span><span class="anim-arrow-sep">→</span><span class="anim-step" data-step="2">發炎訊號正常關閉</span><span class="anim-arrow-sep">→</span><span class="anim-step" data-step="3">組織恢復正常結構</span></div>
+      <p class="anim-narration">健康的修復過程，發炎是暫時的工具，任務完成後會被主動關閉。</p>
+      <button class="btn outline" onclick="playAnimation('normal-repair')">▶ 播放機制動畫</button>
+    </div>
+    <div class="anim-card">
+      <h3>纖維化生成機制</h3>
+      <div class="anim-steps" id="anim-fibrosis-formation"><span class="anim-step danger" data-step="0">組織受傷</span><span class="anim-arrow-sep">→</span><span class="anim-step danger" data-step="1">發炎反應啟動</span><span class="anim-arrow-sep">→</span><span class="anim-step danger" data-step="2">發炎訊號未被關閉（持續刺激）</span><span class="anim-arrow-sep">→</span><span class="anim-step danger" data-step="3">纖維母細胞過度活化</span><span class="anim-arrow-sep">→</span><span class="anim-step danger" data-step="4">膠原蛋白異常堆積</span><span class="anim-arrow-sep">→</span><span class="anim-step danger" data-step="5">組織硬化、纖維化</span></div>
+      <p class="anim-narration">當發炎訊號持續存在而沒有被關閉，身體會用「疤痕組織」取代正常功能性組織——這就是纖維化。</p>
+      <button class="btn outline" onclick="playAnimation('fibrosis-formation')">▶ 播放機制動畫</button>
+    </div>
+    <div class="anim-card">
+      <h3>缺氧惡性循環</h3>
+      <div class="anim-steps" id="anim-hypoxia-cycle"><span class="anim-step danger" data-step="0">腫瘤快速生長</span><span class="anim-arrow-sep">→</span><span class="anim-step danger" data-step="1">血管供應不足</span><span class="anim-arrow-sep">→</span><span class="anim-step danger" data-step="2">組織缺氧</span><span class="anim-arrow-sep">→</span><span class="anim-step danger" data-step="3">篩選出更惡性的癌細胞株</span><span class="anim-arrow-sep">→</span><span class="anim-step danger" data-step="4">免疫細胞活性受抑制</span><span class="anim-arrow-sep">→</span><span class="anim-step danger" data-step="5">腫瘤持續惡化並可能促進轉移</span></div>
+      <p class="anim-narration">缺氧環境像一個篩選器，留下的往往是更危險的癌細胞，同時讓免疫系統更難發揮作用。</p>
+      <button class="btn outline" onclick="playAnimation('hypoxia-cycle')">▶ 播放機制動畫</button>
+    </div>
+    <div class="anim-card">
+      <h3>自體抗癌力啟動機制</h3>
+      <div class="anim-steps" id="anim-immune-activation"><span class="anim-step" data-step="0">降低慢性發炎負擔</span><span class="anim-arrow-sep">→</span><span class="anim-step" data-step="1">改善循環與氧氣供應</span><span class="anim-arrow-sep">→</span><span class="anim-step" data-step="2">腸道與營養基礎修復</span><span class="anim-arrow-sep">→</span><span class="anim-step" data-step="3">NK細胞與T細胞活性恢復</span><span class="anim-arrow-sep">→</span><span class="anim-step" data-step="4">免疫監控機制重新運作</span></div>
+      <p class="anim-narration">這不是「對抗」疾病的過程，而是「讓身體原本的能力重新上線」的過程。</p>
+      <button class="btn outline" onclick="playAnimation('immune-activation')">▶ 播放機制動畫</button>
+    </div>
+  </div>
+</section>
+<script>window.__ANIMATIONS__ = [{"id":"normal-repair","title":"正常修復機制","steps":["組織受傷","發炎反應啟動（清除損傷）","發炎訊號正常關閉","組織恢復正常結構"],"narration":"健康的修復過程，發炎是暫時的工具，任務完成後會被主動關閉。"},{"id":"fibrosis-formation","title":"纖維化生成機制","steps":["組織受傷","發炎反應啟動","發炎訊號未被關閉（持續刺激）","纖維母細胞過度活化","膠原蛋白異常堆積","組織硬化、纖維化"],"narration":"當發炎訊號持續存在而沒有被關閉，身體會用「疤痕組織」取代正常功能性組織——這就是纖維化。"},{"id":"hypoxia-cycle","title":"缺氧惡性循環","steps":["腫瘤快速生長","血管供應不足","組織缺氧","篩選出更惡性的癌細胞株","免疫細胞活性受抑制","腫瘤持續惡化並可能促進轉移"],"narration":"缺氧環境像一個篩選器，留下的往往是更危險的癌細胞，同時讓免疫系統更難發揮作用。"},{"id":"immune-activation","title":"自體抗癌力啟動機制","steps":["降低慢性發炎負擔","改善循環與氧氣供應","腸道與營養基礎修復","NK細胞與T細胞活性恢復","免疫監控機制重新運作"],"narration":"這不是「對抗」疾病的過程，而是「讓身體原本的能力重新上線」的過程。"}];</script>
+
+<section class="module-section" id="mod-improve" data-mod="improve">
+  <div class="page">
+    <div class="section-head">
+      <div class="section-eyebrow">Module 06</div>
+      <h2 class="section-title">纖維化改善導航 · 五層架構</h2>
+      <p class="section-sub">由根本到表面，五層改善架構：發炎 → 腸道 → 循環 → 粒線體 → 修復。建議依序處理，效果會比跳著做更顯著。</p>
+    </div>
+    <div class="card-grid" style="grid-template-columns:1fr;">
+    <details class="click-card">
+      <summary><span class="ci-icon">🔥</span> 第一層：發炎<span class="ci-chevron">▾</span></summary>
+      <div class="ci-body">
+        <p>降低慢性發炎是所有改善的起點。沒有處理發炎，其他層的努力效果都會被持續的發炎訊號抵消。</p>
+        <p style="font-weight:700;color:var(--navy);margin-top:14px;">具體行動方向：</p>
+        <ul style="padding-left:20px;"><li>減少精緻糖與反式脂肪攝取</li><li>增加Omega-3攝取比例</li><li>規律睡眠（發炎指標在睡眠不足時會明顯上升）</li><li>適度有氧運動（過度高強度運動反而會短期升高發炎）</li></ul>
+        <div class="yen-link-box">🔗 對應顏醫師「抗發炎體質」核心觀念</div>
+      </div>
+    </details>
+    <details class="click-card">
+      <summary><span class="ci-icon">🦠</span> 第二層：腸道<span class="ci-chevron">▾</span></summary>
+      <div class="ci-body">
+        <p>腸道是全身最大的免疫器官，也是慢性發炎最常見的隱藏起點。腸壁通透性增加（腸漏）會讓發炎訊號持續放大。</p>
+        <p style="font-weight:700;color:var(--navy);margin-top:14px;">具體行動方向：</p>
+        <ul style="padding-left:20px;"><li>增加膳食纖維與發酵食物攝取</li><li>減少不必要的抗生素與止痛藥使用</li><li>評估食物敏感性</li><li>補充特定益生菌菌株與短鏈脂肪酸前驅物</li></ul>
+        <div class="yen-link-box">🔗 腸道健康直接影響顏醫師強調的「免疫平衡」</div>
+      </div>
+    </details>
+    <details class="click-card">
+      <summary><span class="ci-icon">🩸</span> 第三層：循環<span class="ci-chevron">▾</span></summary>
+      <div class="ci-body">
+        <p>良好的循環決定氧氣與營養能否真正送達細胞。循環不良會讓前兩層的努力效果大打折扣。</p>
+        <p style="font-weight:700;color:var(--navy);margin-top:14px;">具體行動方向：</p>
+        <ul style="padding-left:20px;"><li>規律有氧運動提升心肺功能</li><li>改善血管內皮功能（如增加硝酸鹽類蔬菜攝取）</li><li>管理血壓血糖</li><li>考慮輔助循環的物理性介入</li></ul>
+        <div class="yen-link-box">🔗 對應顏醫師「腫瘤缺氧理論」中改善氧氣供應的核心方向</div>
+      </div>
+    </details>
+    <details class="click-card">
+      <summary><span class="ci-icon">⚡</span> 第四層：粒線體<span class="ci-chevron">▾</span></summary>
+      <div class="ci-body">
+        <p>粒線體是細胞的發電廠，發炎、缺氧、營養失衡長期作用下，粒線體功能會逐漸下降，造成深層疲勞與修復力不足。</p>
+        <p style="font-weight:700;color:var(--navy);margin-top:14px;">具體行動方向：</p>
+        <ul style="padding-left:20px;"><li>補充CoQ10、PQQ等粒線體輔因子</li><li>間歇性斷食或熱量限制策略（需個人化評估）</li><li>規律運動刺激粒線體新生</li><li>避免長期慢性壓力（皮質醇持續升高會損害粒線體功能）</li></ul>
+        <div class="yen-link-box">🔗 對應「自體抗癌力」中細胞能量基礎的重建</div>
+      </div>
+    </details>
+    <details class="click-card">
+      <summary><span class="ci-icon">🔧</span> 第五層：修復<span class="ci-chevron">▾</span></summary>
+      <div class="ci-body">
+        <p>前四層處理好之後，身體才有足夠的資源進行真正的修復——而不是用纖維化（疤痕組織）取代正常組織。</p>
+        <p style="font-weight:700;color:var(--navy);margin-top:14px;">具體行動方向：</p>
+        <ul style="padding-left:20px;"><li>確保足夠的優質蛋白質攝取</li><li>深度睡眠是修復的關鍵時段，需特別保護</li><li>補充支持膠原蛋白正常代謝的營養素（避免過度纤維化堆積）</li><li>定期專業評估修復進度，而非僅憑感覺判斷</li></ul>
+        <div class="yen-link-box">🔗 正常修復而非纖維化修復，是區分「老化」與「可逆轉的功能下降」的關鍵</div>
+      </div>
+    </details></div>
+  </div>
+</section>
+
+<section class="module-section" id="mod-tech" data-mod="tech">
+  <div class="page">
+    <div class="section-head">
+      <div class="section-eyebrow">Module 07</div>
+      <h2 class="section-title">顏榮郎診間整合性抗癌策略</h2>
+      <p class="section-sub">四大策略類別：物理性、化學性、免疫性、個人化——點擊展開了解每一類的概念方向與理論依據。</p>
+    </div>
+    <div class="card-grid" style="grid-template-columns:1fr;">
+    <details class="click-card">
+      <summary><span class="ci-icon">🔆</span> 物理性策略<span class="ci-chevron">▾</span></summary>
+      <div class="ci-body">
+        <p style="font-weight:700;color:var(--navy);">透過物理能量介入，改善局部與全身的循環、氧合與細胞修復環境。</p>
+        <p>物理性介入的核心目標，是針對顏醫師理論中強調的「腫瘤缺氧」與「循環不良」問題，透過光、熱、磁場、壓力等物理能量形式，輔助改善組織的氧氣供應與循環效率，為其他治療策略創造更有利的身體環境。</p>
+        <p style="font-weight:700;color:var(--navy);margin-top:14px;">概念性方向（非具體療程清單）：</p>
+        <ul style="padding-left:20px;"><li>改善組織氧合與微循環的光能介入</li><li>輔助細胞修復的能量導入技術</li><li>提升周邊循環效率的物理性療程</li></ul>
+        <div class="yen-link-box">🔗 對應顏醫師「腫瘤缺氧理論」中改善氧氣供應的核心方向</div>
+      </div>
+    </details>
+    <details class="click-card">
+      <summary><span class="ci-icon">🧬</span> 化學性策略<span class="ci-chevron">▾</span></summary>
+      <div class="ci-body">
+        <p style="font-weight:700;color:var(--navy);">透過特定營養素或藥理介入，調節體內氧化壓力、發炎反應與代謝環境。</p>
+        <p>化學性策略涵蓋透過口服或注射途徑，補充體內可能缺乏或需要加強的關鍵物質，目標是降低慢性發炎負擔、提升抗氧化能力、改善代謝環境，建立顏醫師所說的「不利癌細胞生存的體質」。</p>
+        <p style="font-weight:700;color:var(--navy);margin-top:14px;">概念性方向（非具體療程清單）：</p>
+        <ul style="padding-left:20px;"><li>高劑量營養素注射輔助策略</li><li>調節氧化壓力與發炎反應的營養介入</li><li>個人化代謝環境調整方案</li></ul>
+        <div class="yen-link-box">🔗 對應顏醫師「抗發炎體質」核心觀念與「抗癌就像減肥」的體質改造邏輯</div>
+      </div>
+    </details>
+    <details class="click-card">
+      <summary><span class="ci-icon">🛡️</span> 免疫性策略<span class="ci-chevron">▾</span></summary>
+      <div class="ci-body">
+        <p style="font-weight:700;color:var(--navy);">聚焦於重建與強化身體本身的免疫監控與清除能力。</p>
+        <p>免疫性策略的方向，是評估並支持身體原有的免疫系統功能——包括先天性與後天性免疫機制的平衡，目標是讓身體重新具備辨識與清除異常細胞的能力，而非單純依賴外部介入。</p>
+        <p style="font-weight:700;color:var(--navy);margin-top:14px;">概念性方向（非具體療程清單）：</p>
+        <ul style="padding-left:20px;"><li>免疫功能評估與調節方案</li><li>支持免疫系統平衡的整合性介入</li><li>個人化免疫力提升規劃</li></ul>
+        <div class="yen-link-box">🔗 直接對應顏醫師「啟動自體抗癌力」核心觀念</div>
+      </div>
+    </details>
+    <details class="click-card">
+      <summary><span class="ci-icon">🧩</span> 個人化策略<span class="ci-chevron">▾</span></summary>
+      <div class="ci-body">
+        <p style="font-weight:700;color:var(--navy);">依據每個人的腸道菌相、代謝特徵與整體狀況，量身規劃調整方向。</p>
+        <p>個人化策略強調沒有兩個人的身體狀況完全相同。透過完整評估了解個人的腸道生態、代謝特徵、發炎指標等基礎資料，才能規劃出真正適合的整合性方案，而非套用單一標準療程。</p>
+        <p style="font-weight:700;color:var(--navy);margin-top:14px;">概念性方向（非具體療程清單）：</p>
+        <ul style="padding-left:20px;"><li>個人化腸道生態評估與調整方向</li><li>依個人代謝特徵規劃的整合方案</li><li>長期追蹤與動態調整的照護模式</li></ul>
+        <div class="yen-link-box">🔗 貫穿顏醫師所有理論的共同前提——每個人的「生態系失衡」型態不同，調整方向也應不同</div>
+      </div>
+    </details></div>
+    <div class="disclaimer">⚠️ 以上內容為整合性抗癌策略的概念層級說明，並非顏博士活力診所實際治療項目清單。具體治療方式、是否適用、療程內容與費用，請以顏醫師當次評估與診斷為準，務必直接諮詢診所。</div>
+  </div>
+</section>
+
+<section class="module-section" id="mod-ai" data-mod="ai">
+  <div class="page">
+    <div class="section-head">
+      <div class="section-eyebrow">Module 08</div>
+      <h2 class="section-title">AI 個人化問診</h2>
+      <p class="section-sub">你最想改善什麼？點選後，系統會依您選擇的身份（病友／家屬 或 亞健康保養）生成對應的個人化建議。</p>
+    </div>
+    <div class="symptom-pills"><button class="symptom-pill" data-cid="fatigue" onclick="selectAIConcern('fatigue')">😴 疲勞</button><button class="symptom-pill" data-cid="sleep" onclick="selectAIConcern('sleep')">🌙 睡眠</button><button class="symptom-pill" data-cid="cancer" onclick="selectAIConcern('cancer')">🎯 癌症相關擔憂</button><button class="symptom-pill" data-cid="pain" onclick="selectAIConcern('pain')">⚡ 疼痛</button><button class="symptom-pill" data-cid="brainfog" onclick="selectAIConcern('brainfog')">🌫️ 腦霧</button><button class="symptom-pill" data-cid="anxiety" onclick="selectAIConcern('anxiety')">💭 焦慮</button></div>
+    <div class="ai-chat-box" id="ai-result-box">
+      <p style="color:var(--ink-soft);text-align:center;margin:0;">請先點選上方您最想改善的項目</p>
+    </div>
+  </div>
+</section>
+<script>window.__AI_TEMPLATES__ = {"fatigue":{"cancer":"您提到的疲勞，在癌症治療期間或治療後相當常見，可能與發炎指標、貧血、代謝負擔、甚至治療本身的副作用都有關。這類疲勞不建議單純靠「多休息」處理，因為根本原因可能是身體層面的，而非單純睡眠不足。建議將這個症狀完整告知您的醫療團隊，必要時可參考整合性的評估（如顏博士活力診所），從發炎、循環、營養三個角度同步檢視。","healthy":"持續性疲勞通常不是單一原因造成的，常見的根源包括慢性發炎、肝臟代謝負擔、腸道吸收問題，或粒線體功能下降。建議先從「改善導航五層」的第一層（發炎）與第四層（粒線體）著手調整，同時評估是否需要專業營養素介入。如果調整一段時間後仍無改善，建議尋求專業評估找出根本原因。"},"sleep":{"cancer":"睡眠問題在癌症病友中很常見，可能與治療副作用、疼痛、焦慮、或身體本身的發炎狀態有關。睡眠品質會直接影響身體的修復能力，這在治療期間特別關鍵。建議您將睡眠困擾明確告知醫療團隊，同時可以考慮整合性評估，了解是否有可以改善的根本因素。","healthy":"長期睡眠品質不佳，往往與神經系統的發炎反應、皮質醇節律失衡、或腦部循環不良有關。建議優先處理發炎與壓力管理，同時留意睡前的生活習慣調整。若超過三個月未見改善，建議進行更完整的專業評估。"},"cancer":{"cancer":"如果您或家人正在面對癌症，這份系統提供的纖維化與發炎機制知識，目的是幫助您理解「為什麼整合性照護重要」——不只是消滅癌細胞，身體的微環境（發炎、缺氧、纖維化、免疫狀態）同樣會直接影響治療效果與生活品質。我們強烈建議您將這些考量帶給專業醫療團隊，顏博士活力診所在腫瘤微環境與整合性癌症照護領域有專門的臨床經驗，可以作為您治療團隊之外的重要諮詢資源。","healthy":"對於目前沒有癌症病史但關心相關風險的您，理解「癌症生態系」的概念其實是很好的預防角度——慢性發炎、缺氧、代謝失衡這些因子不只影響癌症風險，也影響整體老化速度與慢性病風險。從現在開始建立抗發炎體質，是最具成本效益的長期投資。"},"pain":{"cancer":"癌症相關的疼痛可能來自疾病本身、治療副作用、或合併的慢性發炎反應，這類疼痛的處理需要專業團隊評估，不建議自行嘗試各種方法拼湊。建議將疼痛的詳細狀況（時間、強度、誘發因素）記錄下來，提供給醫療團隊或整合性評估門診參考。","healthy":"慢性疼痛常與低度發炎反應互為因果——疼痛本身會誘發更多發炎，發炎又會放大疼痛感受。建議從「改善導航」的發炎與循環兩層著手，同時注意疼痛是否有特定誘發模式，這些資訊在尋求專業評估時會很有幫助。"},"brainfog":{"cancer":"治療相關的認知變化（有時稱為「化療腦」）是真實存在的現象，可能與發炎、氧化壓力、循環變化有關。這類症狀建議誠實地告知醫療團隊，不要因為「聽起來不嚴重」而忽略，因為它確實會影響生活品質與決策能力。","healthy":"腦霧通常與腦部循環、神經發炎、血糖波動有關。建議檢視日常飲食中的精緻糖攝取量，並評估是否有規律運動習慣支持腦部血流。"},"anxiety":{"cancer":"面對癌症診斷或治療過程產生焦慮是完全可以理解的正常反應。同時，慢性焦慮狀態也確實會透過神經內分泌路徑影響發炎指標。如果焦慮已經明顯影響生活品質或睡眠，建議同時尋求心理支持資源與身體層面的整合評估，兩者並不互斥。","healthy":"焦慮與身體的發炎狀態、腸道菌相、血糖穩定度都有雙向關聯。建議從生活型態的基礎調整開始，若焦慮持續影響生活功能，建議尋求專業心理支持。"}};</script>
+
+<section class="module-section" id="mod-clinic" data-mod="clinic">
+  <div class="page">
+    <div class="section-head">
+      <div class="section-eyebrow">Module 09</div>
+      <h2 class="section-title">下一步：專業評估與預約</h2>
+      <p class="section-sub" id="clinic-sub">了解機制只是第一步，真正的改變需要專業團隊根據您的完整狀況規劃方案。</p>
+    </div>
+
+    <div id="clinic-cancer-banner" class="cta-banner" style="background:linear-gradient(135deg,var(--cancer-accent),#A84545);display:none;">
+      <h3 style="color:#fff;">給癌症病友與家屬的建議</h3>
+      <p style="color:#fff;">如果您正在面對癌症診斷或治療，整合性的微環境評估（發炎、缺氧、纖維化、免疫狀態）可能是您治療團隊之外重要的補充資源。建議將本系統的評估結果帶給專業醫師參考。</p>
+    </div>
+    <div id="clinic-healthy-banner" class="cta-banner" style="display:none;">
+      <h3>給亞健康保養族群的建議</h3>
+      <p>長期的疲勞、睡眠、腦霧問題值得被認真對待。除了日常的營養與生活調整，定期的專業評估能幫助您更精準地找到根本原因。</p>
+    </div>
+
+    <div class="clinic-card">
+      <div class="clinic-header">
+        <div>
+          <div class="clinic-name">顏榮郎 博士</div>
+          <div class="clinic-title">顏博士活力診所 院長</div>
+        </div>
+      </div>
+      <ul class="cred-list"><li>臺灣大學醫學系畢業</li><li>美國 MD Anderson Cancer Center（德州大學安德森癌症中心）腫瘤生物學博士</li><li>曾任長庚醫院放射腫瘤科主治醫師</li><li>曾任長庚大學醫學院副教授（教育部部定副教授）</li><li>曾任聖馬爾定醫院放射腫瘤科兼任主治醫師</li><li>創立顏博士活力診所與相關健康管理團隊</li></ul>
+
+      <div class="contact-grid">
+        <div class="contact-item">
+          <div class="ci-label">預約電話</div>
+          <div class="ci-value"><a href="tel:0423141998">04-23141998</a></div>
+        </div>
+        <div class="contact-item">
+          <div class="ci-label">Email</div>
+          <div class="ci-value"><a href="mailto:rlyen7210@hotmail.com">rlyen7210@hotmail.com</a></div>
+        </div>
+        <div class="contact-item">
+          <div class="ci-label">診所地址</div>
+          <div class="ci-value">台中市漢口路二段34號</div>
+        </div>
+        <div class="contact-item">
+          <div class="ci-label">門診時間</div>
+          <div class="ci-value" style="font-size:14px;line-height:1.6;"><div>週一三四 13:00～20:30</div><div>週二五 09:00～16:30</div></div>
+        </div>
+      </div>
+
+      <div style="margin-top:24px;text-align:center;">
+        <a href="https://www.facebook.com/search/top?q=%E8%B5%B0%E5%87%BA%E6%8A%97%E7%99%8C%E5%9B%B0%E5%A2%83" target="_blank" rel="noopener" class="btn gold" style="display:inline-block;">📘 前往「走出抗癌困境」臉書專頁</a>
+      </div>
+    </div>
+
+    <div class="book-strip">
+      <div class="bs-icon">📖</div>
+      <div>
+        <h4>延伸閱讀：《抗癌就像減肥》（2013）</h4>
+        <p>抗癌不是找到仙丹，而是長期建立不利癌細胞生存的體質。減肥沒有特效藥，抗癌也沒有。兩者都需要的是：長期、系統性、可持續的體質改造工程。</p>
+      </div>
+    </div>
+
+    <div id="my-result-recap" style="margin-top:28px;display:none;"></div>
+
+    <div class="disclaimer" style="margin-top:28px;">
+      ⚠️ 本系統內容為衛教資訊整理，不能取代專業醫療診斷與治療建議。如有任何健康疑慮，請直接諮詢專業醫師或撥打上方電話預約評估。
+    </div>
+  </div>
+</section>
+<footer class="site-footer">© 顏博士活力診所衛教系統 · 本系統為衛教資訊整理，不取代專業醫療建議</footer>
+
+<script>
+let currentAudience = null;
+
+function setAudience(aud) {
+  currentAudience = aud;
+  try { localStorage.setItem('fc_audience', aud); } catch(e) {}
+  applyAudienceUI();
+  goToModule('theory');
+}
+
+function applyAudienceUI() {
+  document.querySelectorAll('.audience-card').forEach(c => c.style.outline = 'none');
+  const clinicSub = document.getElementById('clinic-sub');
+  const cancerBanner = document.getElementById('clinic-cancer-banner');
+  const healthyBanner = document.getElementById('clinic-healthy-banner');
+  if (currentAudience === 'cancer') {
+    if (cancerBanner) cancerBanner.style.display = 'block';
+    if (healthyBanner) healthyBanner.style.display = 'none';
+  } else if (currentAudience === 'healthy') {
+    if (healthyBanner) healthyBanner.style.display = 'block';
+    if (cancerBanner) cancerBanner.style.display = 'none';
+  }
+}
+
+function goToModule(modId) {
+  document.querySelectorAll('.module-section').forEach(s => s.classList.remove('active'));
+  const target = document.getElementById('mod-' + modId);
+  if (target) target.classList.add('active');
+  document.querySelectorAll('[data-nav]').forEach(b => b.classList.toggle('active', b.getAttribute('data-nav') === modId));
+  document.querySelectorAll('[data-nav-drawer]').forEach(b => b.classList.toggle('active', b.getAttribute('data-nav-drawer') === modId));
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function toggleDrawer() {
+  document.getElementById('drawer').classList.toggle('open');
+  document.getElementById('drawer-overlay').classList.toggle('open');
+}
+
+// ---------- Risk Quiz ----------
+function onRiskCheck(el) {
+  el.closest('.quiz-item').classList.toggle('checked', el.checked);
+  const total = document.querySelectorAll('.risk-checkbox').length;
+  const checked = document.querySelectorAll('.risk-checkbox:checked').length;
+  document.getElementById('risk-count-label').textContent = '已勾選 ' + checked + ' / ' + total + ' 項';
+  document.getElementById('risk-progress-bar').style.width = (checked/total*100) + '%';
+}
+
+function submitRiskQuiz() {
+  const checked = document.querySelectorAll('.risk-checkbox:checked');
+  let score = 0;
+  checked.forEach(c => score += parseInt(c.getAttribute('data-weight'), 10));
+  const bands = window.__RISK_BANDS__;
+  const band = bands.find(b => score >= b.min && score <= b.max) || bands[bands.length-1];
+
+  const note = currentAudience === 'cancer' ? band.cancerNote : (currentAudience === 'healthy' ? band.healthyNote : (band.cancerNote + ' ' + band.healthyNote));
+
+  document.getElementById('risk-quiz-form').style.display = 'none';
+  const panel = document.getElementById('risk-result-panel');
+  panel.style.display = 'block';
+  panel.innerHTML = `
+    <div class="result-banner" style="background:${band.color};">
+      <div class="rb-level">${band.level}</div>
+      <div class="rb-score">您的評估分數：${score} 分（勾選 ${checked.length} 項）</div>
+    </div>
+    <div style="background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:24px;box-shadow:var(--shadow);">
+      <p style="font-size:17px;">${band.desc}</p>
+      <div class="yen-link-box" style="margin-top:16px;">${note}</div>
+    </div>
+    <div class="cta-banner">
+      <h3>想了解這個分數背後的完整機制？</h3>
+      <p>前往「生態系地圖」了解纖維化如何影響各器官系統，或直接預約專業評估。</p>
+      <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
+        <button class="btn outline" onclick="goToModule('map')">查看生態系地圖</button>
+        <button class="btn gold" onclick="goToModule('clinic')">預約專業評估</button>
+      </div>
+    </div>
+  `;
+  try {
+    localStorage.setItem('fc_risk_score', JSON.stringify({ score: score, level: band.level }));
+  } catch(e) {}
+  renderClinicRecap();
+}
+
+function renderClinicRecap() {
+  const recap = document.getElementById('my-result-recap');
+  if (!recap) return;
+  try {
+    const data = JSON.parse(localStorage.getItem('fc_risk_score'));
+    if (data) {
+      recap.style.display = 'block';
+      recap.innerHTML = '<div class="formula-box">您的纖維化風險評估結果：' + data.level + '（' + data.score + ' 分）</div>';
+    }
+  } catch(e) {}
+}
+
+// ---------- Symptom Navigator ----------
+function selectSymptom(sid) {
+  document.querySelectorAll('.symptom-pill[data-sid]').forEach(p => p.classList.toggle('active', p.getAttribute('data-sid') === sid));
+  const nav = window.__SYMPTOM_NAV__.find(s => s.id === sid);
+  const mapById = window.__ECOSYSTEM_MAP_BY_ID__;
+  if (!nav) return;
+  const resultBox = document.getElementById('symptom-result');
+  resultBox.style.display = 'block';
+
+  const linkedNodes = nav.linkOrgans.map(oid => mapById[oid]).filter(Boolean);
+  const nodeCards = linkedNodes.map(n => {
+    const pathway = n.pathway.map((s,i) => '<span class="pathway-step">'+s+'</span>' + (i < n.pathway.length-1 ? '<span class="pathway-arrow">→</span>' : '')).join('');
+    return '<div class="anim-card"><h3>' + n.icon + ' ' + n.organ + '</h3><div class="pathway-flow">' + pathway + '</div><div class="yen-link-box">🔗 ' + n.yenLink + '</div></div>';
+  }).join('');
+
+  resultBox.innerHTML = `
+    <div class="quote-box" style="font-size:17px;">${nav.desc}</div>
+    ${nodeCards}
+  `;
+}
+
+// ---------- Animation playback ----------
+function playAnimation(animId) {
+  const container = document.getElementById('anim-' + animId);
+  if (!container) return;
+  const steps = container.querySelectorAll('.anim-step');
+  steps.forEach(s => s.classList.remove('lit'));
+  let i = 0;
+  const interval = setInterval(() => {
+    if (i < steps.length) {
+      steps[i].classList.add('lit');
+      i++;
+    } else {
+      clearInterval(interval);
+    }
+  }, 550);
+}
+
+// ---------- (Tech tab switching removed — Module 7 no longer uses sub-tabs) ----------
+
+// ---------- AI Consult ----------
+function selectAIConcern(cid) {
+  document.querySelectorAll('.symptom-pill[data-cid]').forEach(p => p.classList.toggle('active', p.getAttribute('data-cid') === cid));
+  const templates = window.__AI_TEMPLATES__[cid];
+  const box = document.getElementById('ai-result-box');
+  if (!templates) { box.innerHTML = '<p style="text-align:center;color:var(--ink-soft);">內容準備中</p>'; return; }
+  const aud = currentAudience || 'healthy';
+  const tagLabel = currentAudience === 'cancer' ? '給病友／家屬的建議' : (currentAudience === 'healthy' ? '給保養族群的建議' : '一般建議');
+  box.innerHTML = `
+    <div class="ai-msg">
+      <span class="ai-tag">🤖 ${tagLabel}</span>
+      <p style="margin:0;">${templates[aud] || templates.healthy}</p>
+    </div>
+    <div style="text-align:center;margin-top:16px;">
+      <button class="btn gold" onclick="goToModule('clinic')">前往預約評估 →</button>
+    </div>
+  `;
+}
+
+// ---------- Init ----------
+(function init() {
+  try {
+    const saved = localStorage.getItem('fc_audience');
+    if (saved) { currentAudience = saved; applyAudienceUI(); }
+  } catch(e) {}
+})();
+</script>
+</body>
+</html>
